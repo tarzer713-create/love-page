@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ถึงเทอ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mali:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ตัวการ์ตูนประจำเว็บ (กระต่ายก้อนเมฆ) สลับอารมณ์ได้ด้วย data-mood: sad / calm / happy -->
+  <template id="mascot-tpl">
+    <svg class="mascot" viewBox="0 0 200 190" role="img" aria-label="ตัวการ์ตูนกระต่ายน้อย" data-mood="sad">
+      <!-- หู -->
+      <g stroke="#5a3e6b" stroke-width="4" stroke-linejoin="round">
+        <ellipse cx="68" cy="42" rx="17" ry="38" fill="#fff" transform="rotate(-12 68 42)"/>
+        <ellipse cx="132" cy="42" rx="17" ry="38" fill="#fff" transform="rotate(12 132 42)"/>
+      </g>
+      <ellipse cx="68" cy="46" rx="8" ry="24" fill="#ffc2d8" transform="rotate(-12 68 46)"/>
+      <ellipse cx="132" cy="46" rx="8" ry="24" fill="#ffc2d8" transform="rotate(12 132 46)"/>
+      <!-- หัว/ตัว -->
+      <ellipse cx="100" cy="122" rx="78" ry="60" fill="#fff" stroke="#5a3e6b" stroke-width="4"/>
+      <!-- แก้ม -->
+      <ellipse cx="52" cy="138" rx="13" ry="8" fill="#ffb3cf"/>
+      <ellipse cx="148" cy="138" rx="13" ry="8" fill="#ffb3cf"/>
+      <!-- ตา -->
+      <g class="eyes-open" fill="#5a3e6b">
+        <circle cx="72" cy="120" r="8"/><circle cx="128" cy="120" r="8"/>
+        <circle cx="75" cy="117" r="2.6" fill="#fff"/><circle cx="131" cy="117" r="2.6" fill="#fff"/>
+      </g>
+      <g class="eyes-happy" fill="none" stroke="#5a3e6b" stroke-width="5" stroke-linecap="round">
+        <path d="M62 122 q10 -14 20 0"/><path d="M118 122 q10 -14 20 0"/>
+      </g>
+      <!-- ปาก -->
+      <path class="mouth-sad" d="M90 148 q10 -8 20 0" fill="none" stroke="#5a3e6b" stroke-width="4" stroke-linecap="round"/>
+      <path class="mouth-calm" d="M91 142 q9 8 18 0" fill="none" stroke="#5a3e6b" stroke-width="4" stroke-linecap="round"/>
+      <path class="mouth-happy" d="M88 138 q12 18 24 0 z" fill="#ff8fb3" stroke="#5a3e6b" stroke-width="4" stroke-linejoin="round"/>
+      <!-- น้ำตา -->
+      <path class="tear" d="M62 132 q-7 12 0 17 q7 -5 0 -17z" fill="#9fd4ff" stroke="#5a3e6b" stroke-width="2.5"/>
+      <!-- ประกาย -->
+      <g class="sparkle" fill="#ffd95e" stroke="#5a3e6b" stroke-width="2.5" stroke-linejoin="round">
+        <path d="M20 90 l4 10 l10 4 l-10 4 l-4 10 l-4 -10 l-10 -4 l10 -4z"/>
+        <path d="M182 84 l3 8 l8 3 l-8 3 l-3 8 l-3 -8 l-8 -3 l8 -3z"/>
+      </g>
+    </svg>
+  </template>
+
+  <!-- ก้อนเมฆ + ประกายลอยอยู่ด้านหลัง -->
+  <div class="sky" aria-hidden="true">
+    <span class="cloud c1"></span>
+    <span class="cloud c2"></span>
+    <span class="cloud c3"></span>
+    <span class="twinkle t1">✨</span>
+    <span class="twinkle t2">🎀</span>
+    <span class="twinkle t3">✨</span>
+    <span class="twinkle t4">🍓</span>
+  </div>
+
+  <main>
+
+    <!-- หน้าที่ 1: ปก -->
+    <section class="page cover">
+      <div class="hearts" id="hearts" aria-hidden="true"></div>
+      <p class="to">ถึง <span data-her>เทอ</span> 💌</p>
+      <div class="mascot-slot" data-mascot data-mood="sad"></div>
+      <h1>ขอโทษนะ</h1>
+      <p class="say">ฮึก... มีเรื่องอยากบอกนิดนึงนะ 🥺</p>
+      <button type="button" class="envelope" id="open">
+        <span class="env-icon" aria-hidden="true">💌</span>
+        แตะเพื่อเปิดจดหมาย
+      </button>
+    </section>
+
+    <div id="rest" hidden>
+
+      <!-- หน้าที่ 2: คำขอโทษ (แก้ข้อความใน [ ] ให้เป็นเรื่องจริงของเรา) -->
+      <section class="page">
+        <div class="card letter">
+          <span class="tape" aria-hidden="true"></span>
+          <h2>เรื่องที่เค้าผิด 🎀</h2>
+          <p>เค้าไม่ได้จะแก้ตัวนะ แค่อยากให้เทอรู้ว่าเค้ารู้ตัวแล้ว</p>
+          <ul class="hearts-list">
+            <li>เค้าชอบหายไปแบบไม่บอกเทอ และทิ้งเทอไว้คนเดียว</li>
+            <li>เวลาเราทะเลาะกัน เค้าชอบเงียบใส่เทอ และปล่อยให้เทอดิ่งอยู่คนเดียว</li>
+            <li>เค้าไม่ค่อยฟังเทอ และดื้อรั้นจนกลายเป็นเรื่องใหญ่</li>
+            <li>เค้าชอบคิดไปเอง และคิดแทนเทอ</li>
+            <li>เค้าพูดจาไม่ดีกับเทอ</li>
+            <li>เค้าล้ำเส้นเทอเกินไป จนเทอไม่มีพื้นที่ส่วนตัว</li>
+          </ul>
+          <p>ทั้งหมดเป็นความผิดของเค้า ไม่ใช่ของเทอเลย</p>
+        </div>
+      </section>
+
+      <!-- หน้าที่ 3: สิ่งที่เปลี่ยนไปแล้ว (สิ่งที่เค้าจะทำจริง ๆ) -->
+      <section class="page">
+        <h2 class="center">สิ่งที่เค้าจะเปลี่ยน ⭐</h2>
+        <p class="center">ไม่ใช่คำสัญญานะ แต่เป็นสิ่งที่เค้าจะทำจริง ๆ</p>
+        <div class="stickers">
+          <div class="card sticker pink"><span aria-hidden="true">🌷</span><p>เค้าจะไม่ทิ้งเทอไปไหน เค้าจะอยู่กับเทอตลอด วันไหนรู้สึกเหนื่อยหรือรู้สึกแย่ เค้าจะอยู่ข้างเทอเสมอ</p></div>
+          <div class="card sticker butter"><span aria-hidden="true">🧸</span><p>เค้าจะเลือกเชื่อฟังเทอคนเดียวพอ และเค้ายอมเทอทุกอย่างเลย</p></div>
+          <div class="card sticker blue"><span aria-hidden="true">☁️</span><p>เค้าจะหยุดคิดมาก เลิกคิดไปเอง และเลิกคิดแทนเทอด้วย</p></div>
+        </div>
+      </section>
+
+      <!-- หน้าที่ 4: รูปเดียว (ไฟล์ photo.jpg อยู่โฟลเดอร์เดียวกับ index.html) -->
+      <section class="page">
+        <h2 class="center">เค้าขอโทษจริง ๆ นะ 🙏</h2>
+        <div class="polaroids">
+          <figure class="polaroid single tilt-l">
+            <span class="pin" aria-hidden="true">🎀</span>
+            <div class="frame"><span class="ph" aria-hidden="true">🐰</span><img src="photo.jpg" alt="รูปเค้ากำลังไหว้ขอโทษ" onerror="this.remove()"></div>
+            <figcaption>ขอโทษนะ <span data-her>เทอ</span> 🥺</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- หน้าที่ 5: คำถามสุดท้าย (ตัวการ์ตูนตอบสนองตามคำตอบ) -->
+      <section class="page">
+        <div class="mascot-slot small" data-mascot data-mood="sad" id="ask-mascot"></div>
+        <p class="say" id="say" role="status" aria-live="polite">ให้โอกาสเค้าอีกครั้งได้ไหมนะ 🥺</p>
+        <div class="card ask">
+          <h2>เทอคิดว่ายังไงหรอ</h2>
+          <p>ไม่ว่าเทอจะตอบอะไร เค้าเคารพคำตอบนั้นนะ</p>
+          <div class="choices" role="group" aria-label="คำตอบของเทอ">
+            <button type="button" class="btn pink" data-answer="yes">ได้นะ 💙</button>
+            <button type="button" class="btn" data-answer="time">ขอเวลาคิดก่อน</button>
+            <button type="button" class="btn" data-answer="no">ยังไม่พร้อม</button>
+          </div>
+        </div>
+        <p class="sign">จาก <span data-me>เรา</span> 🧸</p>
+      </section>
+
+    </div>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

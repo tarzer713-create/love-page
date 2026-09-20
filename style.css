@@ -1,0 +1,257 @@
+:root {
+  --blush: #ffe3ee;   /* ชมพูอ่อน พื้นหลัง */
+  --ink: #5a3e6b;     /* ม่วงพลัมนุ่ม ๆ ตัวอักษร + เส้นขอบ */
+  --pink: #ffb3cf;   /* ชมพูปุ่ม */
+  --sky: #bfe3ff;     /* ฟ้าพาสเทล */
+  --butter: #fff1b8;  /* เหลืองเนย */
+  --white: #ffffff;
+  --border: 3px solid var(--ink);
+  --shadow: 0 6px 0 var(--ink);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background-color: var(--blush);
+  background-image: radial-gradient(#fff 2.5px, transparent 3px);
+  background-size: 24px 24px;
+  font-family: "Mali", "Noto Sans Thai", system-ui, sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+main { position: relative; z-index: 1; max-width: 26rem; margin: 0 auto; }
+
+h1, h2 { margin: 0 0 0.75rem; line-height: 1.4; font-weight: 700; }
+h1 { font-size: 3.6rem; text-shadow: 3px 3px 0 var(--white), 5px 5px 0 var(--pink); }
+h2 { font-size: 1.55rem; }
+p { margin: 0 0 0.75rem; }
+.center { text-align: center; }
+
+/* ---------- หน้าแต่ละหน้า ---------- */
+.page {
+  position: relative;
+  min-height: 100svh;
+  padding: 3rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  scroll-snap-align: start;
+}
+.cover { align-items: center; text-align: center; }
+.cover .to { font-size: 1.2rem; margin-bottom: 0.5rem; }
+
+/* ---------- ท้องฟ้า: เมฆ + ประกาย ---------- */
+.sky { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.cloud {
+  position: absolute;
+  width: 9rem;
+  height: 3rem;
+  background: var(--white);
+  border-radius: 999px;
+  opacity: 0.9;
+  animation: drift 70s linear infinite;
+}
+.cloud::before, .cloud::after { content: ""; position: absolute; background: var(--white); border-radius: 50%; }
+.cloud::before { width: 4rem; height: 4rem; top: -2rem; left: 1.2rem; }
+.cloud::after  { width: 3rem; height: 3rem; top: -1.3rem; left: 4.6rem; }
+.c1 { top: 10%; left: -12rem; }
+.c2 { top: 52%; left: -12rem; animation-duration: 95s; animation-delay: -35s; scale: 0.7; }
+.c3 { top: 82%; left: -12rem; animation-duration: 80s; animation-delay: -55s; scale: 1.2; }
+@keyframes drift { to { translate: calc(100vw + 26rem) 0; } }
+
+.twinkle { position: absolute; font-size: 1.4rem; animation: twinkle 3s ease-in-out infinite; }
+.t1 { top: 8%;  left: 8%; }
+.t2 { top: 30%; right: 7%; animation-delay: -1s; }
+.t3 { top: 62%; left: 6%; animation-delay: -2s; }
+.t4 { top: 88%; right: 10%; animation-delay: -0.5s; }
+@keyframes twinkle {
+  0%, 100% { transform: scale(0.8) rotate(-8deg); opacity: 0.6; }
+  50%      { transform: scale(1.2) rotate(8deg);  opacity: 1; }
+}
+
+/* ---------- หัวใจลอย + หัวใจพุ่ง ---------- */
+.hearts { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.heart { position: absolute; bottom: -2rem; opacity: 0; animation: rise linear infinite; }
+@keyframes rise {
+  0%   { transform: translateY(0) scale(0.8); opacity: 0; }
+  15%  { opacity: 0.95; }
+  100% { transform: translateY(-105svh) scale(1.1); opacity: 0; }
+}
+.burst { position: fixed; z-index: 10; pointer-events: none; animation: burst 1.2s ease-out forwards; }
+@keyframes burst { to { transform: translate(var(--dx), var(--dy)) scale(1.4) rotate(20deg); opacity: 0; } }
+
+/* ---------- ตัวการ์ตูน ---------- */
+.mascot-slot { width: 10rem; margin: 0.5rem auto 0; animation: bob 3s ease-in-out infinite; }
+.mascot-slot.small { width: 8rem; }
+@keyframes bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+
+.mascot { display: block; width: 100%; height: auto; overflow: visible; }
+.mascot .eyes-open, .mascot .eyes-happy,
+.mascot .mouth-sad, .mascot .mouth-calm, .mascot .mouth-happy,
+.mascot .tear, .mascot .sparkle { display: none; }
+
+.mascot[data-mood="sad"] .eyes-open,
+.mascot[data-mood="sad"] .mouth-sad,
+.mascot[data-mood="sad"] .tear { display: inline; }
+
+.mascot[data-mood="calm"] .eyes-open,
+.mascot[data-mood="calm"] .mouth-calm { display: inline; }
+
+.mascot[data-mood="happy"] .eyes-happy,
+.mascot[data-mood="happy"] .mouth-happy,
+.mascot[data-mood="happy"] .sparkle { display: inline; }
+
+.mascot .eyes-open { transform-box: fill-box; transform-origin: center; animation: blink 4s infinite; }
+@keyframes blink { 0%, 93%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.1); } }
+.mascot .tear { animation: drip 2s ease-in infinite; }
+@keyframes drip { 0% { translate: 0 -4px; opacity: 0; } 30% { opacity: 1; } 100% { translate: 0 22px; opacity: 0; } }
+.mascot .sparkle { transform-box: fill-box; transform-origin: center; animation: twinkle 1.6s ease-in-out infinite; }
+
+/* ---------- ฟองคำพูด ---------- */
+.say {
+  position: relative;
+  align-self: center;
+  max-width: 100%;
+  margin: 1rem 0 1.25rem;
+  padding: 0.7rem 1.25rem;
+  text-align: center;
+  background: var(--white);
+  border: var(--border);
+  border-radius: 1.5rem;
+}
+.say::before {
+  content: "";
+  position: absolute;
+  top: -0.6rem;
+  left: 50%;
+  width: 1rem;
+  height: 1rem;
+  translate: -50% 0;
+  rotate: 45deg;
+  background: var(--white);
+  border-top: var(--border);
+  border-left: var(--border);
+}
+.say a { color: var(--ink); font-weight: 700; }
+
+/* ---------- การ์ดสติกเกอร์ ---------- */
+.card {
+  position: relative;
+  background: var(--white);
+  border: var(--border);
+  border-radius: 2rem;
+  box-shadow: var(--shadow);
+  padding: 1.9rem 1.7rem;
+}
+.card::after { /* ขอบปักด้าย */
+  content: "";
+  position: absolute;
+  inset: 0.45rem;
+  border: 2px dashed var(--pink);
+  border-radius: 1.5rem;
+  pointer-events: none;
+}
+.tape {
+  position: absolute;
+  top: -0.9rem;
+  left: 50%;
+  z-index: 1;
+  width: 5.5rem;
+  height: 1.6rem;
+  translate: -50% 0;
+  rotate: -3deg;
+  background: var(--sky);
+  border: 2px solid var(--ink);
+  border-radius: 0.3rem;
+}
+
+.hearts-list { list-style: none; margin: 0 0 1rem; padding: 0; }
+.hearts-list li { position: relative; padding-left: 1.8rem; margin-bottom: 0.5rem; }
+.hearts-list li::before { content: "💗"; position: absolute; left: 0; font-size: 0.95rem; }
+
+.stickers { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 1rem; }
+.sticker { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; border-radius: 1.6rem; }
+.sticker::after { inset: 0.35rem; border-radius: 1.2rem; border-color: rgba(255, 255, 255, 0.9); }
+.sticker span { font-size: 2.2rem; }
+.sticker p { margin: 0; }
+.sticker.pink   { background: var(--pink);   rotate: -1.5deg; }
+.sticker.butter { background: var(--butter); rotate: 1deg; }
+.sticker.blue   { background: var(--sky);    rotate: -0.5deg; }
+
+/* ---------- โพลารอยด์ ---------- */
+.polaroids { display: flex; flex-direction: column; align-items: center; gap: 1.6rem; margin-top: 1rem; }
+.polaroid {
+  position: relative;
+  margin: 0;
+  width: 13rem;
+  padding: 0.6rem 0.6rem 0.4rem;
+  background: var(--white);
+  border: var(--border);
+  border-radius: 1rem;
+  box-shadow: var(--shadow);
+}
+.tilt-l { rotate: -3deg; }
+.tilt-r { rotate: 3deg; }
+.pin { position: absolute; top: -1rem; right: -0.6rem; z-index: 1; font-size: 1.8rem; rotate: 15deg; }
+.frame {
+  position: relative;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  background: var(--sky);
+  border: 2px solid var(--ink);
+  border-radius: 0.6rem;
+  overflow: hidden;
+}
+.frame .ph { font-size: 3rem; }
+.frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.polaroid figcaption { text-align: center; font-size: 0.9rem; line-height: 1.5; padding-top: 0.4rem; }
+
+.polaroid.single { width: 16rem; }
+.polaroid.single .frame { aspect-ratio: 3 / 4; }
+.polaroid.single .frame img { object-position: center 60%; }
+.polaroid.single figcaption { font-size: 1.05rem; padding: 0.5rem 0 0.3rem; }
+
+/* ---------- ปุ่ม ---------- */
+.btn, .envelope {
+  font: inherit;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--white);
+  border: var(--border);
+  border-radius: 999px;
+  box-shadow: 0 4px 0 var(--ink);
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+.btn:hover, .envelope:hover { translate: 0 -2px; }
+.btn:active, .envelope:active { transform: translateY(4px); box-shadow: 0 0 0 var(--ink); }
+.btn.pink { background: var(--pink); }
+.btn:focus-visible, .envelope:focus-visible { outline: 3px solid var(--sky); outline-offset: 4px; }
+
+.envelope { display: inline-flex; flex-direction: column; align-items: center; gap: 0.2rem; padding: 1rem 1.9rem; background: var(--butter); }
+.env-icon { font-size: 3rem; line-height: 1.2; animation: wiggle 2.4s ease-in-out infinite; }
+@keyframes wiggle {
+  0%, 70%, 100% { rotate: 0deg; }
+  76% { rotate: -10deg; }
+  84% { rotate: 10deg; }
+  92% { rotate: -6deg; }
+}
+
+.ask { margin-top: 0.25rem; text-align: center; }
+.choices { display: flex; flex-direction: column; gap: 0.9rem; margin-top: 1.25rem; position: relative; z-index: 1; }
+.sign { text-align: center; margin-top: 2rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .cloud, .twinkle, .heart, .burst, .env-icon,
+  .mascot-slot, .mascot .eyes-open, .mascot .tear, .mascot .sparkle { animation: none; }
+  .heart { display: none; }
+}
